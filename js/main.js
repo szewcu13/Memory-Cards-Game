@@ -24,7 +24,14 @@ const picture = [
 	{ name: "toy-train", image: "./img/toy-train.png" },
 	{ name: "box", image: "./img/box.png" },
 	{ name: "tree", image: "./img/tree.png" },
-	
+    { name: "seater-sofa", image: "./img/seater-sofa.png" },
+	{ name: "pizza", image: "./img/pizza.png" },
+	{ name: "car", image: "./img/car.png" },
+	{ name: "house", image: "./img/house.png" },
+	{ name: "airplane", image: "./img/airplane.png" },
+	{ name: "cargo-ship", image: "./img/cargo-ship.png" },
+	{ name: "shiba", image: "./img/shiba.png" },
+	{ name: "cat", image: "./img/cat.png" }	
 ];
 
 //
@@ -105,6 +112,49 @@ const generatePicTable = (cardValues, size = 4) => {
 
     // CARDS
 
+    cards = document.querySelectorAll('.card-box');
+    cards.forEach((card) => {
+        card.addEventListener('click', () => {
+            if(!card.classList.contains('matched')) {
+                card.classList.add('flipped');
+
+                if(!firstCard) {
+                    firstCard = card;
+
+                    firstCardValue = card.getAttribute('data-card-value');
+                }
+                else {
+                    movesCounter();
+    
+                    secondCard = card;
+                    let secondCardValue = card.getAttribute('data-card-value');
+                    if(firstCardValue == secondCardValue) {
+                        firstCard.classList.add('matched');
+                        secondCard.classList.add('matched');
+    
+                        firstCard = false;
+    
+                        winCount += 1;
+    
+                        if(winCount  == Math.floor(cardValues.length / 2)) {
+                            result.innerHTML = `<h2>Wygrałeś</h2>
+                            <h4>Liczba prób: ${movesNumber}</h4>`;
+                            stopGame();
+                        }
+                    }
+                    else {
+                        let[tempFirst, tempSecond] = [firstCard, secondCard];
+                        firstCard = false;
+                        secondCard = false;
+                        let delay = setTimeout(() => {
+                            tempFirst.classList.remove('flipped');
+                            tempSecond.classList.remove('flipped');
+                        }, 900);
+                    }
+                }
+            }
+        });
+    });
    
 };
 
